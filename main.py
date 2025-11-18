@@ -2,6 +2,7 @@ import logics
 
 
 def main () :
+    print("you can write -readme")
     while True :
         main_menu_choice = input("\nwrite:\n"
                                  "0 - to exit\n\n"
@@ -64,6 +65,8 @@ def main () :
                     elif choice_in_overwrite_backup == "1" :
                         logics.overwrite_file_backup()
 
+        elif main_menu_choice == "-readme" :
+            print ("soon")
 
 if __name__ == "__main__" :
     main()
