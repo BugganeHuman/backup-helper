@@ -83,7 +83,7 @@ def main () :
 
         elif main_menu_choice == "-readme" :
             print ("\nThis is a backup-helper, he can:\n"
-                   "1 - keep paths to files and backups to\т"
+                   "1 - keep paths to files and backups to\n"
                    "    make a backup with just two clicks.\n"
                    "2 - make a backup of the files you wrote to it earlier.\n"
                    "3 - Make a manual backup, specifying the source and\n"
@@ -98,3 +98,4 @@ def main () :
 
 if __name__ == "__main__" :
     main()
+
