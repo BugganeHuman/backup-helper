@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import shutil
 
 
 def add_paths_in_copied_files(paths_for_add) :
@@ -8,12 +8,12 @@ def add_paths_in_copied_files(paths_for_add) :
     with open ("copied_files.txt", 'a+') as file :
         paths_for_add_row = r""
         paths_for_add_row += paths_for_add
-        paths = paths_for_add_row.split(sep=" ")
+        paths = paths_for_add_row.split(sep=", ")
         if paths_for_add_row.strip() != "" :
             for path_string in paths:
                 path = Path(path_string)
                 if path.exists() :
-                    file.write(path_string + "\n")
+                    file.write(path_string+"\n" )
                 else :
                     print (path_string + " didn't add because"
                     " it is not exists path")
@@ -27,10 +27,10 @@ def add_path_in_backup_file(path_to_backup) :
     with open("backup.txt", 'a+') as file :
         path_to_backup_row = r""
         path_to_backup_row += path_to_backup
-        path_to_backups_list = path_to_backup_row.split(sep=" ")
+        path_to_backups_list = path_to_backup_row.split(sep=", ")
         if path_to_backup_row.strip() != "" :
             for path_backup_string in path_to_backups_list :
-                file.write(path_backup_string + "\n")
+                file.write("\n" + path_backup_string)
             print ("\ndone\n")
         else :
             print("path is empty")
@@ -50,52 +50,73 @@ def show_paths_of_copied_files() :
 def overwrite_file_backup() :
     with open ('backup.txt', 'w+') as file :
         paths = input("write paths to backup separator"
-                     "by space without \"\"\n: ")
+                     "by ', ' without \"\"\n: ")
         add_path_in_backup_file(paths)
 
 def overwrite_file_copied_files () :
     with open ("copied_files.txt", 'w+') as file :
         paths = input ("write paths to copied files separator"
-                        "by space without \"\"\n"
+                        "by ', ' without \"\"\n"
                         ": ")
         add_paths_in_copied_files(paths)
 
+def fast_backup () :
+    copied_files = open("copied_files.txt", 'r+') 
+    backup_file = open("backup.txt", 'r+')        
+    # надо читать так если надо откинуть последний \n для переноса строки
+    # а то вознекает ошибка, ибо ищется путь вместе с \n на конце
+    backup_file_list = backup_file.read().splitlines()
+    copied_files_list = copied_files.read().splitlines()
+    for path_to_backup_string in backup_file_list :
+        path_to_backup = Path(path_to_backup_string)
+        if path_to_backup.is_dir()  :
+            for path_to_copied_file_string in copied_files_list :
+                path_to_copied_file = Path(path_to_copied_file_string)
+                if path_to_copied_file.is_dir() :
+                    try:
+                        shutil.copytree(path_to_copied_file, path_to_backup/path_to_copied_file.name, dirs_exist_ok=True)
+                    except IOError :
+                        print(IOError)
+                elif path_to_copied_file.is_file() :
+                    try:
+                        path_to_backup.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(path_to_copied_file, path_to_backup)
+                    except IOError:
+                        print (IOError)
+                else:
+                    print (path_to_copied_file, " did not find")
+                    continue
+        else:
+            print (path_to_backup, " did not find")
+            continue
+    print ("\nready\n")
+    copied_files.close()
+    backup_file.close()
 
-#       TESTS DOWN
-#___________________________________________________
-#if __name__ == "__main__" :
+def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
+    for path_to_backup_string in list_of_paths_backup:
+        path_to_backup = Path(path_to_backup_string)
+        if path_to_backup.is_dir() :
+            for path_to_copied_file_string in list_of_paths_copied_files :
+                path_to_copied_file = Path(path_to_copied_file_string)
+                if path_to_copied_file.is_dir() :
+                    try:
+                        shutil.copytree(path_to_copied_file, path_to_backup/path_to_copied_file.name, dirs_exist_ok=True)
+                    except IOError :
+                        print (IOError)
+                elif path_to_copied_file.is_file() :
+                    try:
+                        path_to_backup.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(path_to_copied_file, path_to_backup)
+                    except IOError :
+                        print(IOError)
+                else:
+                    print (path_to_copied_file, " did not find")
+                    continue
+        else :
+            print (path_to_backup, " did not find")
+            continue
 
- #   overwrite_file_copied_files()
-
-
-
-
-#____________________________________________________
-#       END TESTS
-
-
-
-"""
-нужны функции -
-
-1) add_paths_in_copied_files(path) - сначала надо path разбить по пробелам
-и записать в list, и элементы list записать в файл copied_files.txt
-
-2) add_path_in_backup_file(path_to_backup) записывает только один путь или
-несколько что бы копировалост в несколько мест 🐍
-
-3) show_file_path_to_backup()
-
-4) show_create_file_copied_files()
-
-5) overwrite_file_path_to_backup() - удаляет все строки и вызывает
-    add_path_to_backup_in_backup(path)
-
-6)overwrite_file_copied_files() - удаляет все строки и вызывает
-    add_paths_in_copied_files(path)
-
-7) copy (copy, backup) деректория или деректории backup (через пробел можно -
-разделить) копирутся в backup если есть изминения (это надо додумать)
-"""
+    print("\ndone\n")
 
 
