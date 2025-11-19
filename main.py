@@ -15,8 +15,10 @@ def main () :
 
         elif main_menu_choice == "1" :
             print ("\ncopying . . .\n")
-            logics.fast_backup()
-
+            try :
+                logics.fast_backup()
+            except Exception :
+                print(Exception)
         elif main_menu_choice == "2" :
             paths_copied_files = input("\nwrite paths to copied files"     
                                         " separator by ', ' without \"\" \n"
@@ -80,7 +82,7 @@ def main () :
                         logics.overwrite_file_backup()
 
         elif main_menu_choice == "-readme" :
-            print ("This is a backup-helper, he can:\n"
+            print ("\nThis is a backup-helper, he can:\n"
                    "1 - keep paths to files and backups to\т"
                    "    make a backup with just two clicks.\n"
                    "2 - make a backup of the files you wrote to it earlier.\n"
