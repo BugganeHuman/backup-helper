@@ -9,6 +9,10 @@ I use:
 
 To download, download the Backup-helper.exe file.
 
-my email - bugganehuman@gmail.com
+## Author
+**BugganeHuman**
+GitHub:   https://github.com/BugganeHuman
+Email:    bugganehuman@gmail.com
+
                 
 
