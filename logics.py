@@ -143,6 +143,3 @@ def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
             print (path_to_backup, " did not find")
             continue
     print("\ndone\n")
-
-fast_backup()
-
