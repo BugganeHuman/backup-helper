@@ -66,13 +66,16 @@ def fast_backup () :
     backup_file = open("backup.txt", 'r+')
     # надо читать так если надо откинуть последний \n для переноса строки
     # а то вознекает ошибка, ибо ищется путь вместе с \n на конце
-    counter = 0
     backup_file_list = backup_file.read().splitlines()
     copied_files_list = copied_files.read().splitlines()
     for path_to_backup_string in backup_file_list :
+        if path_to_backup_string == "":
+            continue
         path_to_backup = Path(path_to_backup_string)
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
+                if path_to_backup_string == "":
+                    continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
                 if not final_path.exists():
@@ -81,8 +84,8 @@ def fast_backup () :
                                     dirs_exist_ok=True)
                     print(path_to_copied_file, "added")
                 elif final_path.exists():
+
                     for item in path_to_copied_file.rglob('*'):
-                        counter += 1
                         if item.is_dir():
                             relative_path = item.relative_to(path_to_copied_file)
                             path_to_dir = final_path/relative_path
@@ -98,14 +101,13 @@ def fast_backup () :
                                 try :
                                     if item.is_file():
                                         shutil.copy2(item, final_path)
+                                        # ошибка была в том что он проходит
+                                        # по всем строкам backup.txt, и даже пустым
+                                        # и из за этого цикл запускался снова
                                         print(item, "added")
-                                        print(counter)
-
                                 except IOError:
                                     print(IOError,"error in fast_backup to try add", item)
-
                             else:
-                                print(counter)
                                 continue
         else:
             print (path_to_backup, " did not find")
@@ -142,4 +144,5 @@ def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
             print (path_to_backup, " did not find")
             continue
     print("\ndone\n")
-    
+
+fast_backup()
