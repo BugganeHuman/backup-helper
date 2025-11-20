@@ -3,7 +3,7 @@ This is a backup-helper, he can:
 2 - make a backup of the files you wrote to it earlier.
 3 - Make a manual backup, specifying the source and
     destination of the copy.
-I use:
+I used:
   paths is stored in txt files, if you need something unusual
   python 14 core
 
