@@ -12,13 +12,13 @@ def main () :
 
         if main_menu_choice == "0" :
             break
-
         elif main_menu_choice == "1" :
             print ("\ncopying . . .\n")
             try :
                 logics.fast_backup()
-            except Exception :
-                print(Exception)
+            except Exception as e:
+                print(e, "error in main(logics.fast_backup())")
+
         elif main_menu_choice == "2" :
             paths_copied_files = input("\nwrite paths to copied files"     
                                         " separator by ', ' without \"\" \n"
@@ -88,6 +88,10 @@ def main () :
                    "2 - make a backup of the files you wrote to it earlier.\n"
                    "3 - Make a manual backup, specifying the source and\n"
                    "    destination of the copy.\n"
+                   "IMPORTANT:\n"
+                   "    If you plan to back up something frequently and of large size,\n"
+                   "    I strongly recommend using fast backup because it copies only those files\n"
+                   "    that have been changed, while manual backup simply overwrites files.\n"
                    "paths is stored in txt files, if you need something unusual\n"
                    "you can rewrite their by yourself\n"
                    "if you don't like something, you can rewrite code by yourself\n"
@@ -98,4 +102,3 @@ def main () :
 
 if __name__ == "__main__" :
     main()
-
