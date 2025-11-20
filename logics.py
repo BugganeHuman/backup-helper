@@ -61,7 +61,6 @@ def overwrite_file_copied_files () :
         add_paths_in_copied_files(paths)
 
 def fast_backup () :
-
     copied_files = open("copied_files.txt", 'r+')
     backup_file = open("backup.txt", 'r+')
     # надо читать так если надо откинуть последний \n для переноса строки
@@ -146,3 +145,4 @@ def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
     print("\ndone\n")
 
 fast_backup()
+
