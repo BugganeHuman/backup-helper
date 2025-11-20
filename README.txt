@@ -1,3 +1,4 @@
+НАДО ДОДЕЛАТЬ ЧТО БЫ КОПИРОВАЛИСЬ ЛИШЬ ТЕ ФАЙЛЫ КОТОРЫЕ БЫЛИ ИЗМЕНЕНЫ
 This is a backup-helper, he can:
 1 - keep paths to files and backups to\т    make a backup with just two clicks.
 2 - make a backup of the files you wrote to it earlier.
