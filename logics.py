@@ -61,10 +61,12 @@ def overwrite_file_copied_files () :
         add_paths_in_copied_files(paths)
 
 def fast_backup () :
+
     copied_files = open("copied_files.txt", 'r+')
     backup_file = open("backup.txt", 'r+')
     # надо читать так если надо откинуть последний \n для переноса строки
     # а то вознекает ошибка, ибо ищется путь вместе с \n на конце
+    counter = 0
     backup_file_list = backup_file.read().splitlines()
     copied_files_list = copied_files.read().splitlines()
     for path_to_backup_string in backup_file_list :
@@ -72,20 +74,39 @@ def fast_backup () :
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
                 path_to_copied_file = Path(path_to_copied_file_string)
-                if path_to_copied_file.is_dir() :
-                    try:
-                        shutil.copytree(path_to_copied_file, path_to_backup/path_to_copied_file.name, dirs_exist_ok=True)
-                    except IOError :
-                        print(IOError)
-                elif path_to_copied_file.is_file() :
-                    try:
-                        path_to_backup.mkdir(parents=True, exist_ok=True)
-                        shutil.copy2(path_to_copied_file, path_to_backup)
-                    except IOError:
-                        print (IOError)
-                else:
-                    print (path_to_copied_file, " did not find")
-                    continue
+                final_path = path_to_backup / path_to_copied_file.name
+                if not final_path.exists():
+                    shutil.copytree(path_to_copied_file,
+                                    path_to_backup/path_to_copied_file.name,
+                                    dirs_exist_ok=True)
+                    print(path_to_copied_file, "added")
+                elif final_path.exists():
+                    for item in path_to_copied_file.rglob('*'):
+                        counter += 1
+                        if item.is_dir():
+                            relative_path = item.relative_to(path_to_copied_file)
+                            path_to_dir = final_path/relative_path
+                            try:
+                                path_to_dir.mkdir(parents=True, exist_ok=True)
+                            except IOError:
+                                print(IOError, "error in create dir")
+                        else:
+                            item_in_final_relative = item.relative_to(path_to_copied_file)
+                            item_in_final = final_path/item_in_final_relative
+                            if (not item_in_final.exists() or item.stat().st_mtime >
+                                    item_in_final.stat().st_mtime):
+                                try :
+                                    if item.is_file():
+                                        shutil.copy2(item, final_path)
+                                        print(item, "added")
+                                        print(counter)
+
+                                except IOError:
+                                    print(IOError,"error in fast_backup to try add", item)
+
+                            else:
+                                print(counter)
+                                continue
         else:
             print (path_to_backup, " did not find")
             continue
@@ -99,9 +120,13 @@ def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
         if path_to_backup.is_dir() :
             for path_to_copied_file_string in list_of_paths_copied_files :
                 path_to_copied_file = Path(path_to_copied_file_string)
+
                 if path_to_copied_file.is_dir() :
                     try:
-                        shutil.copytree(path_to_copied_file, path_to_backup/path_to_copied_file.name, dirs_exist_ok=True)
+
+                        shutil.copytree(path_to_copied_file,
+                                        path_to_backup/path_to_copied_file.name,
+                                        dirs_exist_ok=True)
                     except IOError :
                         print (IOError)
                 elif path_to_copied_file.is_file() :
@@ -116,5 +141,5 @@ def manual_backup (list_of_paths_copied_files, list_of_paths_backup) :
         else :
             print (path_to_backup, " did not find")
             continue
-
     print("\ndone\n")
+    
