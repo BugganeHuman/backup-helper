@@ -7,7 +7,7 @@ def main () :
         main_menu_choice = input("\nwrite:\n"
                                  "0 - to exit\n\n"
                                  "1 - fast backup\n\n"
-                                 "2 - create backup\n\n"
+                                 "2 - manual backup\n\n"
                                  "3 - permanent paths:  ")
 
         if main_menu_choice == "0" :
