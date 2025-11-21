@@ -61,6 +61,7 @@ def overwrite_file_copied_files () :
         add_paths_in_copied_files(paths)
 
 def fast_backup () :
+
     copied_files = open("copied_files.txt", 'r+')
     backup_file = open("backup.txt", 'r+')
     # надо читать так если надо откинуть последний \n для переноса строки
@@ -78,6 +79,7 @@ def fast_backup () :
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
                 if not final_path.exists():
+                    print("creating - ", path_to_copied_file)
                     shutil.copytree(path_to_copied_file,
                                     path_to_backup/path_to_copied_file.name,
                                     dirs_exist_ok=True)
@@ -95,14 +97,13 @@ def fast_backup () :
                         else:
                             item_in_final_relative = item.relative_to(path_to_copied_file)
                             item_in_final = final_path/item_in_final_relative
+
                             if (not item_in_final.exists() or item.stat().st_mtime >
                                     item_in_final.stat().st_mtime):
                                 try :
                                     if item.is_file():
-                                        shutil.copy2(item, final_path)
-                                        # ошибка была в том что он проходит
-                                        # по всем строкам backup.txt, и даже пустым
-                                        # и из за этого цикл запускался снова
+                                        shutil.copy2(item, item_in_final)
+                                        # ошибка в том что он проходит по всем строкас backup.txt и даже пустым
                                         print(item, "added")
                                 except IOError:
                                     print(IOError,"error in fast_backup to try add", item)
