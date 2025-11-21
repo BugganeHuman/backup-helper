@@ -59,10 +59,16 @@ def main () :
                     logics.add_path_in_backup_file(paths_buckup)
 
                 elif meny_permanent_paths_choice == "3" :
-                    logics.show_paths_of_copied_files()
+                    try:
+                        logics.show_paths_of_copied_files()
+                    except Exception as e:
+                        print(e, "error in show_paths_of_copied_files()")
 
                 elif  meny_permanent_paths_choice == "4" :
-                    logics.show_paths_of_backup()
+                    try:
+                        logics.show_paths_of_backup()
+                    except Exception as e:
+                        print(e, "error in show_paths_of_backup()")
 
                 elif meny_permanent_paths_choice == "5" :
                     choice_in_overwrite_copied_files = input("\nare you sure?\n"
