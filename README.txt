@@ -9,6 +9,10 @@ I used:
 
 To download, download the Backup-helper.exe file.
 
+plans:
+    A feature that allows you to add exceptions for copied folders,
+    so the user can specify paths to files or folders that should not be copied.
+
 ## Author
 **BugganeHuman**
 GitHub:   https://github.com/BugganeHuman
