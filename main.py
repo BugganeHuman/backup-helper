@@ -9,7 +9,6 @@ def main () :
                                  "1 - fast backup\n\n"
                                  "2 - manual backup\n\n"
                                  "3 - permanent paths:  ")
-
         if main_menu_choice == "0" :
             break
         elif main_menu_choice == "1" :
@@ -30,63 +29,92 @@ def main () :
             list_of_paths_backup = paths_backup.split(sep=", ")
 
             logics.manual_backup(list_of_paths_copied_files, list_of_paths_backup)
-
         elif main_menu_choice == "3" :
+            dict_acts_add = {
+                "1": logics.add_paths,
+                "2": logics.add_paths,
+                "3": logics.add_paths,
+                "4": "copied_files.txt",
+                "5": "backup.txt",
+                "6": "exceptions.txt",
+            }
+            dict_acts_show = {
+                "1": logics.show_paths,
+                "2": logics.show_paths,
+                "3": logics.show_paths,
+                "4": "copied_files.txt",
+                "5": "backup.txt",
+                "6": "exceptions.txt",
+            }
+            dict_acts_overwrite = {
+                "1": logics.overwrite_file,
+                "2": logics.overwrite_file,
+                "3": logics.overwrite_file,
+                "4": "copied_files.txt",
+                "5": "backup.txt",
+                "6": "exceptions.txt",
+            }
             while True :
                 meny_permanent_paths_choice = input("\npress:\n"
                             "0 - to main menu\n\n"
-                            "1 - add paths in the text file with paths to"
-                            " often copied directories or files\n\n"
-                            "2 - add paths in a text file with paths backups\n\n"
-                            "3 - show file with paths to copied directories or files\n\n"
-                            "4 - show file with paths to backups\n\n"
-                            "5 - overwrite file with paths to copied directories "
-                            "or files for new paths\n\n"
-                            "6 - overwrite file with paths to backups "
-                            "for a new paths:       ")
+                            "1 - add paths \n\n"
+                            "2 - show file\n\n"
+                            "3 - overwrite file\n"
+                            ":  ")
+
+
                 if meny_permanent_paths_choice == "0" :
                     break
-
+                    
                 elif meny_permanent_paths_choice == "1" :
-                    paths_copied_directories = input("\nwrite paths to copied"                                                    
-                        " files separator by ', ' without \"\"\n"
-                        ": ")
-                    logics.add_paths_in_copied_files(paths_copied_directories)
+                    while True:
+                        choice_to_add_paths = input("write number for add paths of:\n"
+                                                "0 - return\n\n"
+                                                "1 - copied_files\n\n"
+                                                "2 - backup\n\n"
+                                                "3 - exceptions: ")
+                        if choice_to_add_paths == "0":
+                            break
+                        else:
+                            if choice_to_add_paths in dict_acts_add:
+                                var = str(int(choice_to_add_paths) + 3)
+                                try:
+                                    dict_acts_add[choice_to_add_paths](dict_acts_add[var])
+                                except Exception as e:
+                                    print(e)
 
                 elif meny_permanent_paths_choice == "2" :
-                    paths_buckup = input("write paths to backup separator"
-                     "by ', ' without \"\" \n: ")
-                    logics.add_path_in_backup_file(paths_buckup)
-
-                elif meny_permanent_paths_choice == "3" :
-                    try:
-                        logics.show_paths_of_copied_files()
-                    except Exception as e:
-                        print(e, "error in show_paths_of_copied_files()")
-
-                elif  meny_permanent_paths_choice == "4" :
-                    try:
-                        logics.show_paths_of_backup()
-                    except Exception as e:
-                        print(e, "error in show_paths_of_backup()")
-
-                elif meny_permanent_paths_choice == "5" :
-                    choice_in_overwrite_copied_files = input("\nare you sure?\n"
-                                                        "write 0 - to back\n"
-                                                        "write 1 - to go: ")
-                    if choice_in_overwrite_copied_files == "0" :
-                        break
-                    elif choice_in_overwrite_copied_files == "1" :
-                        logics.overwrite_file_copied_files()
-                elif meny_permanent_paths_choice == "6" :
-                    choice_in_overwrite_backup = input("\nare you sure?\n"
-                                                        "write 0 - to back\n"
-                                                        "write 1 - to go: ")
-                    if choice_in_overwrite_backup == "0" :
-                        break
-                    elif choice_in_overwrite_backup == "1" :
-                        logics.overwrite_file_backup()
-
+                    while True:
+                        choice_to_show = input("write number for show paths of:\n"
+                                                    "0 - return\n\n"
+                                                    "1 - copied_files\n\n"
+                                                    "2 - backup\n\n"
+                                                    "3 - exceptions: ")
+                        if choice_to_show == "0":
+                            break
+                        else:
+                            if choice_to_show in dict_acts_show:
+                                var = str(int(choice_to_show) + 3)
+                                try:
+                                    dict_acts_show[choice_to_show](dict_acts_show[var])
+                                except Exception as e:
+                                    print(e)
+                elif meny_permanent_paths_choice == "3":
+                    while True:
+                        choice_to_overwrite = input("write number to overwrite paths of:\n"
+                                                    "0 - return\n\n"
+                                                    "1 - copied_files\n\n"
+                                                    "2 - backup\n\n"
+                                                    "3 - exceptions: ")
+                        if choice_to_overwrite == "0":
+                            break
+                        else:
+                            if choice_to_overwrite in dict_acts_overwrite:
+                                var = str(int(choice_to_overwrite) + 3)
+                                try:
+                                    dict_acts_overwrite[choice_to_overwrite](dict_acts_overwrite[var])
+                                except Exception as e:
+                                    print(e)
         elif main_menu_choice == "-readme" :
             print ("\nThis is a backup-helper, he can:\n"
                    "1 - keep paths to files and backups to\n"
@@ -104,7 +132,6 @@ def main () :
                    "link to repository -  https://github.com/BugganeHuman/backup-helper\n"
                    "my email - bugganehuman@gmail.com\n"
                    "                :)\n")
-
 
 if __name__ == "__main__" :
     main()
