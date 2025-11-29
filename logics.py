@@ -57,9 +57,8 @@ def fast_backup () :
         path_to_backup = Path(path_to_backup_string)
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
-                print(exceptions_file_list)
                 if path_to_copied_file_string in exceptions_file_list:
-                    print(f"slipped {path_to_copied_file_string}")
+                    print(f"skipped {path_to_copied_file_string}")
                     continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
@@ -72,6 +71,10 @@ def fast_backup () :
                 elif final_path.exists():
 
                     for item in path_to_copied_file.rglob('*'):
+                        print(item)
+                        if item in exceptions_file_list: # баг 
+                            print(f"skipped {item}")
+                            continue
                         if item.is_dir():
                             relative_path = item.relative_to(path_to_copied_file)
                             path_to_dir = final_path/relative_path
