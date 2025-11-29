@@ -1,11 +1,13 @@
 from pathlib import Path
 import shutil
+from shlex import split
 
 
-def add_paths_in_copied_files(paths_for_add) :
-    #give argument need with variable
-    #can not with just a string
-    with open ("copied_files.txt", 'a+') as file :
+def add_paths (path_to_file):
+    paths_for_add = input(f"n\nwrite paths to {path_to_file} "                                                    
+                        "separator by ', ' without \"\"\n"
+                        ": ")
+    with open (path_to_file, 'a+') as file :
         paths_for_add_row = r""
         paths_for_add_row += paths_for_add
         paths = paths_for_add_row.split(sep=", ")
@@ -13,7 +15,7 @@ def add_paths_in_copied_files(paths_for_add) :
             for path_string in paths:
                 path = Path(path_string)
                 if path.exists() :
-                    file.write(path_string+"\n" )
+                    file.write(path_string + "\n" )
                 else :
                     print (path_string + " didn't add because"
                     " it is not exists path")
@@ -21,60 +23,43 @@ def add_paths_in_copied_files(paths_for_add) :
         else :
             print ("path is empty")
 
-def add_path_in_backup_file(path_to_backup) :
-    # give argument need with input
-    # can not with just a string
-    with open("backup.txt", 'a+') as file :
-        path_to_backup_row = r""
-        path_to_backup_row += path_to_backup
-        path_to_backups_list = path_to_backup_row.split(sep=", ")
-        if path_to_backup_row.strip() != "" :
-            for path_backup_string in path_to_backups_list :
-                file.write("\n" + path_backup_string)
-            print ("\ndone\n")
-        else :
-            print("path is empty")
-
-def show_paths_of_backup() :
-    with open("backup.txt", 'r') as file :
+def show_paths(path_to_file):
+    with open(path_to_file, 'r') as file :
         list_paths = file.readlines()
         for path in list_paths :
             print(path)
 
-def show_paths_of_copied_files() :
-    with open ("copied_files.txt", 'r') as file :
-        list_paths = file.readlines()
-        for path in list_paths :
-            print (path)
-
-def overwrite_file_backup() :
-    with open ('backup.txt', 'w+') as file :
-        paths = input("write paths to backup separator"
+def overwrite_file(path_to_file) :
+    with open (path_to_file, 'w+') as file :
+        paths = input(f"write paths to {path_to_file}separator"
                      "by ', ' without \"\"\n: ")
-        add_path_in_backup_file(paths)
-
-def overwrite_file_copied_files () :
-    with open ("copied_files.txt", 'w+') as file :
-        paths = input ("write paths to copied files separator"
-                        "by ', ' without \"\"\n"
-                        ": ")
-        add_paths_in_copied_files(paths)
+        choice_in_exceptions = input("\nare you sure?\n"
+                                     "write 0 - to back\n"
+                                     "write 1 - to go: ")
+        if choice_in_exceptions == "0":
+            return
+        elif choice_in_exceptions == "1":
+            add_paths(path_to_file)
 
 def fast_backup () :
 
     copied_files = open("copied_files.txt", 'r+')
     backup_file = open("backup.txt", 'r+')
+    exceptions_file = open("exceptions.txt", 'r+')
     # надо читать так если надо откинуть последний \n для переноса строки
     # а то вознекает ошибка, ибо ищется путь вместе с \n на конце
     backup_file_list = backup_file.read().splitlines()
     copied_files_list = copied_files.read().splitlines()
+    exceptions_file_list = exceptions_file.read().splitlines()
     for path_to_backup_string in backup_file_list :
         if path_to_backup_string == "":
             continue
         path_to_backup = Path(path_to_backup_string)
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
-                if path_to_backup_string == "":
+                print(exceptions_file_list)
+                if path_to_copied_file_string in exceptions_file_list:
+                    print(f"slipped {path_to_copied_file_string}")
                     continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
