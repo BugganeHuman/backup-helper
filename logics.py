@@ -58,22 +58,28 @@ def fast_backup () :
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
                 if path_to_copied_file_string in exceptions_file_list:
-                    print(f"skipped {path_to_copied_file_string}")
+                    print(f"skipped {path_to_copied_file_string}") # мб убрать
                     continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
+                
                 if not final_path.exists():
                     print("creating - ", path_to_copied_file)
                     shutil.copytree(path_to_copied_file,
                                     path_to_backup/path_to_copied_file.name,
                                     dirs_exist_ok=True)
                     print(path_to_copied_file, "added")
-                elif final_path.exists():
 
+                elif final_path.exists():
                     for item in path_to_copied_file.rglob('*'):
-                        print(item)
-                        if item in exceptions_file_list: # баг 
-                            print(f"skipped {item}")
+                        skip = False
+                        for exception in exceptions_file_list:
+                            path_to_exception = Path(exception)
+                            if (item == path_to_exception or
+                                    item.is_relative_to(path_to_exception)):
+                                print(f"skipped {item}") # мь убрать
+                                skip = True
+                        if skip:
                             continue
                         if item.is_dir():
                             relative_path = item.relative_to(path_to_copied_file)
@@ -91,7 +97,6 @@ def fast_backup () :
                                 try :
                                     if item.is_file():
                                         shutil.copy2(item, item_in_final)
-                                        # ошибка в том что он проходит по всем строкас backup.txt и даже пустым
                                         print(item, "added")
                                 except IOError:
                                     print(IOError,"error in fast_backup to try add", item)
