@@ -1,10 +1,15 @@
 from pathlib import Path
 import shutil
-from shlex import split
+
+def start():
+    with open("copied_files.txt", 'a') as a, \
+        open("backup.txt", 'a') as b,\
+        open("exceptions.txt", 'a') as c:
+            pass
 
 
 def add_paths (path_to_file):
-    paths_for_add = input(f"n\nwrite paths to {path_to_file} "                                                    
+    paths_for_add = input(f"\nwrite paths to {path_to_file} "                                                    
                         "separator by ', ' without \"\"\n"
                         ": ")
     with open (path_to_file, 'a+') as file :
@@ -62,7 +67,7 @@ def fast_backup () :
                     continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
-                
+
                 if not final_path.exists():
                     print("creating - ", path_to_copied_file)
                     shutil.copytree(path_to_copied_file,
