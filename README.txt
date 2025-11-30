@@ -1,5 +1,6 @@
 This is a backup-helper, he can:
-1 - keep paths to files and backups to\т    make a backup with just two clicks.
+1 - keep paths to copied files and backups and exceptions
+    to make a backup with just two clicks.
 2 - make a backup of the files you wrote to it earlier.
 3 - Make a manual backup, specifying the source and
     destination of the copy.
