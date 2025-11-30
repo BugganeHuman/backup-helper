@@ -1,4 +1,4 @@
-This is a backup-helper, he can:
+This is a CLI backup-helper, he can:
 1 - keep paths to copied files and backups and exceptions
     to make a backup with just two clicks.
 2 - make a backup of the files you wrote to it earlier.
