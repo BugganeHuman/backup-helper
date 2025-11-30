@@ -35,15 +35,13 @@ def show_paths(path_to_file):
             print(path)
 
 def overwrite_file(path_to_file) :
-    with open (path_to_file, 'w+') as file :
-        paths = input(f"write paths to {path_to_file}separator"
-                     "by ', ' without \"\"\n: ")
-        choice_in_exceptions = input("\nare you sure?\n"
+    choice_in_exceptions = input("\nare you sure?\n"
                                      "write 0 - to back\n"
                                      "write 1 - to go: ")
-        if choice_in_exceptions == "0":
-            return
-        elif choice_in_exceptions == "1":
+    if choice_in_exceptions == "0":
+        return
+    elif choice_in_exceptions == "1":
+        with open (path_to_file, 'w+') as file :
             add_paths(path_to_file)
 
 def fast_backup () :
