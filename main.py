@@ -41,7 +41,6 @@ def main () :
                 "5": "backup.txt",
                 "6": "exceptions.txt",
             }
-
             dict_acts_show = {
                 "1": logics.show_paths,
                 "2": logics.show_paths,
@@ -58,7 +57,6 @@ def main () :
                 "5": "backup.txt",
                 "6": "exceptions.txt",
             }
-
             while True :
                 meny_permanent_paths_choice = input("\n press:\n"
                             "0 - to main menu\n\n"
@@ -66,11 +64,8 @@ def main () :
                             "2 - show file\n\n"
                             "3 - overwrite file\n"
                             ":  ")
-
-
                 if meny_permanent_paths_choice == "0" :
                     break
-
                 elif meny_permanent_paths_choice == "1" :
                     while True:
                         choice_to_add_paths = input("\nwrite number for add paths of:\n"
@@ -87,8 +82,7 @@ def main () :
                                 try:
                                     dict_acts_add[choice_to_add_paths](dict_acts_add[var])
                                 except Exception as e:
-                                    pass
-                                    #print(e)
+                                    print(e)
 
                 elif meny_permanent_paths_choice == "2" :
                     while True:
@@ -103,8 +97,8 @@ def main () :
                             if choice_to_show in dict_acts_show:
                                 var = str(int(choice_to_show) + 3)
                                 try:
+                                    print()
                                     dict_acts_show[choice_to_show](dict_acts_show[var])
-                                    break
                                 except Exception as e:
                                     print(e)
                 elif meny_permanent_paths_choice == "3":
@@ -145,3 +139,4 @@ def main () :
 
 if __name__ == "__main__" :
     main()
+    
