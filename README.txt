@@ -11,7 +11,8 @@ I used:
 To download, download the Backup-helper.exe file.
 
 plans:
-       soon
+       restore,
+       GUE
 
 ## Author
 **BugganeHuman**
