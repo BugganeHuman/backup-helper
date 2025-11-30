@@ -2,6 +2,7 @@ import logics
 
 
 def main () :
+    logics.start()
     print("\nyou can write -readme")
     while True :
         main_menu_choice = input("\nwrite:\n"
@@ -9,6 +10,7 @@ def main () :
                                  "1 - fast backup\n\n"
                                  "2 - manual backup\n\n"
                                  "3 - permanent paths:  ")
+
         if main_menu_choice == "0" :
             break
         elif main_menu_choice == "1" :
@@ -29,6 +31,7 @@ def main () :
             list_of_paths_backup = paths_backup.split(sep=", ")
 
             logics.manual_backup(list_of_paths_copied_files, list_of_paths_backup)
+
         elif main_menu_choice == "3" :
             dict_acts_add = {
                 "1": logics.add_paths,
@@ -38,6 +41,7 @@ def main () :
                 "5": "backup.txt",
                 "6": "exceptions.txt",
             }
+
             dict_acts_show = {
                 "1": logics.show_paths,
                 "2": logics.show_paths,
@@ -54,8 +58,9 @@ def main () :
                 "5": "backup.txt",
                 "6": "exceptions.txt",
             }
+
             while True :
-                meny_permanent_paths_choice = input("\npress:\n"
+                meny_permanent_paths_choice = input("\n press:\n"
                             "0 - to main menu\n\n"
                             "1 - add paths \n\n"
                             "2 - show file\n\n"
@@ -65,14 +70,15 @@ def main () :
 
                 if meny_permanent_paths_choice == "0" :
                     break
-                    
+
                 elif meny_permanent_paths_choice == "1" :
                     while True:
-                        choice_to_add_paths = input("write number for add paths of:\n"
+                        choice_to_add_paths = input("\nwrite number for add paths of:\n"
                                                 "0 - return\n\n"
                                                 "1 - copied_files\n\n"
                                                 "2 - backup\n\n"
-                                                "3 - exceptions: ")
+                                                "3 - exceptions\n"
+                                                ":  ")
                         if choice_to_add_paths == "0":
                             break
                         else:
@@ -81,11 +87,12 @@ def main () :
                                 try:
                                     dict_acts_add[choice_to_add_paths](dict_acts_add[var])
                                 except Exception as e:
-                                    print(e)
+                                    pass
+                                    #print(e)
 
                 elif meny_permanent_paths_choice == "2" :
                     while True:
-                        choice_to_show = input("write number for show paths of:\n"
+                        choice_to_show = input("\nwrite number for show paths of:\n"
                                                     "0 - return\n\n"
                                                     "1 - copied_files\n\n"
                                                     "2 - backup\n\n"
@@ -97,11 +104,12 @@ def main () :
                                 var = str(int(choice_to_show) + 3)
                                 try:
                                     dict_acts_show[choice_to_show](dict_acts_show[var])
+                                    break
                                 except Exception as e:
                                     print(e)
                 elif meny_permanent_paths_choice == "3":
                     while True:
-                        choice_to_overwrite = input("write number to overwrite paths of:\n"
+                        choice_to_overwrite = input("\nwrite number to overwrite paths of:\n"
                                                     "0 - return\n\n"
                                                     "1 - copied_files\n\n"
                                                     "2 - backup\n\n"
@@ -113,6 +121,7 @@ def main () :
                                 var = str(int(choice_to_overwrite) + 3)
                                 try:
                                     dict_acts_overwrite[choice_to_overwrite](dict_acts_overwrite[var])
+                                    break
                                 except Exception as e:
                                     print(e)
         elif main_menu_choice == "-readme" :
@@ -132,6 +141,7 @@ def main () :
                    "link to repository -  https://github.com/BugganeHuman/backup-helper\n"
                    "my email - bugganehuman@gmail.com\n"
                    "                :)\n")
+
 
 if __name__ == "__main__" :
     main()
