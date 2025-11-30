@@ -1,12 +1,12 @@
 from pathlib import Path
 import shutil
 
+
 def start():
     with open("copied_files.txt", 'a') as a, \
         open("backup.txt", 'a') as b,\
         open("exceptions.txt", 'a') as c:
             pass
-
 
 def add_paths (path_to_file):
     paths_for_add = input(f"\nwrite paths to {path_to_file} "                                                    
@@ -63,7 +63,6 @@ def fast_backup () :
         if path_to_backup.is_dir()  :
             for path_to_copied_file_string in copied_files_list :
                 if path_to_copied_file_string in exceptions_file_list:
-                    print(f"skipped {path_to_copied_file_string}") # мб убрать
                     continue
                 path_to_copied_file = Path(path_to_copied_file_string)
                 final_path = path_to_backup / path_to_copied_file.name
@@ -82,7 +81,6 @@ def fast_backup () :
                             path_to_exception = Path(exception)
                             if (item == path_to_exception or
                                     item.is_relative_to(path_to_exception)):
-                                print(f"skipped {item}") # мь убрать
                                 skip = True
                         if skip:
                             continue
