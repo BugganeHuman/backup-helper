@@ -25,7 +25,7 @@ def main () :
                                         " separator by ', ' without \"\" \n"
                                         ": ")
             list_of_paths_copied_files = paths_copied_files.split(sep=", ")
-            paths_backup = input ("\nwrite paths to backup separator"
+            paths_backup = input ("\nwrite paths to backup separator "
                                 "by ', ' without \"\"\n: ")
             print ("\ncopying . . .\n")
             list_of_paths_backup = paths_backup.split(sep=", ")
@@ -140,3 +140,4 @@ def main () :
 if __name__ == "__main__" :
     main()
     
+
